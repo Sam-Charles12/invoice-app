@@ -46,25 +46,25 @@ export default function InvoiceDetails({
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <button
               type="button"
               onClick={onEdit}
-              className="rounded-full bg-[var(--soft-bg)] px-5 py-3 text-[13px] font-bold text-[#7e88c3] transition-colors hover:bg-[var(--soft-bg-hover)]"
+              className="whitespace-nowrap rounded-full bg-[var(--soft-bg)] px-4 py-2.5 text-[12px] font-bold text-[#7e88c3] transition-colors hover:bg-[var(--soft-bg-hover)] lg:px-5 lg:py-3 lg:text-[13px]"
             >
               Edit
             </button>
             <button
               type="button"
               onClick={onDelete}
-              className="rounded-full bg-danger px-5 py-3 text-[13px] font-bold text-white transition-colors hover:bg-[#ff9797]"
+              className="whitespace-nowrap rounded-full bg-danger px-4 py-2.5 text-[12px] font-bold text-white transition-colors hover:bg-[#ff9797] lg:px-5 lg:py-3 lg:text-[13px]"
             >
               Delete
             </button>
             <button
               type="button"
               onClick={onMarkAsPaid}
-              className="rounded-full bg-primary px-5 py-3 text-[13px] font-bold text-white transition-colors hover:bg-primary-hover"
+              className="whitespace-nowrap rounded-full bg-primary px-4 py-2.5 text-[12px] font-bold text-white transition-colors hover:bg-primary-hover lg:px-5 lg:py-3 lg:text-[13px]"
             >
               Mark as Paid
             </button>

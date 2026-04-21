@@ -35,11 +35,11 @@ export default function InvoiceFormModal({
 
   return (
     <div
-      className="fixed inset-0 left-[80px] z-30 bg-[var(--overlay)]"
+      className="fixed inset-x-0 bottom-0 top-[80px] z-30 bg-[var(--overlay)] lg:inset-0 lg:left-[80px]"
       onClick={onClose}
     >
       <div
-        className={`absolute top-0 flex h-full w-[clamp(320px,52vw,540px)] flex-col rounded-r-[16px] shadow-[0_20px_40px_rgba(72,84,159,0.25)] ${
+        className={`absolute top-0 flex h-full w-[min(80vw,616px)] flex-col rounded-r-[16px] shadow-[0_20px_40px_rgba(72,84,159,0.25)] lg:w-[clamp(320px,52vw,540px)] ${
           isDarkMode ? "bg-[#141625]" : "bg-white"
         }`}
         onClick={(e) => e.stopPropagation()}

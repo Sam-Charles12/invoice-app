@@ -322,7 +322,7 @@ export default function App() {
         onToggleTheme={() => setIsDarkMode((prev) => !prev)}
       />
 
-      <main className="ml-[80px] px-12 pb-8 pt-10">
+      <main className="mt-[80px] px-10 pb-8 pt-10 lg:ml-[80px] lg:mt-0 lg:px-12">
         <section className="mx-auto max-w-[700px]">
           <InvoicesHeader
             summaryText={summaryText}

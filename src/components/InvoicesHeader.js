@@ -31,7 +31,9 @@ export default function InvoicesHeader({
               isDarkMode ? "text-[#dfe3fa]" : "text-text"
             }`}
           >
-            <span>Filter by status</span>
+              <span className="whitespace-nowrap text-[11px] sm:text-[12px]">
+                Filter by status
+              </span>
             <FontAwesomeIcon
               icon={faChevronDown}
               className={`text-[10px] text-primary transition-transform ${
@@ -91,12 +93,12 @@ export default function InvoicesHeader({
         <button
           type="button"
           onClick={onNewInvoice}
-          className="flex items-center gap-2.5 rounded-full bg-primary px-2 py-1.5 pr-3.5 text-[12px] font-bold text-white transition-colors hover:bg-primary-hover"
+          className="flex items-center gap-2 rounded-full bg-primary px-2 py-1.5 pr-3 text-[11px] font-bold text-white transition-colors hover:bg-primary-hover sm:gap-2.5 sm:pr-3.5 sm:text-[12px]"
         >
-          <span className="grid h-6 w-6 place-items-center rounded-full bg-white text-primary shadow-sm">
+          <span className="grid h-5 w-5 place-items-center rounded-full bg-white text-primary shadow-sm sm:h-6 sm:w-6">
             <FontAwesomeIcon icon={faPlus} className="text-[12px]" />
           </span>
-          <span>New Invoice</span>
+          <span className="whitespace-nowrap">New Invoice</span>
         </button>
       </div>
     </header>
