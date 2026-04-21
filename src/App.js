@@ -142,7 +142,9 @@ export default function App() {
 
             <div className="flex-1 overflow-y-auto px-10 pb-28">
               <section className="space-y-5">
-                <h3 className="text-[13px] font-bold text-primary">Bill From</h3>
+                <h3 className="text-[13px] font-bold text-primary">
+                  Bill From
+                </h3>
 
                 <div className="space-y-5">
                   {renderField("Street Address", "19 Union Terrace")}
