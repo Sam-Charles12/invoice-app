@@ -189,20 +189,20 @@ export default function App() {
         <section className="mx-auto max-w-[700px]">
           <header className="flex items-center justify-between">
             <div>
-              <h1 className="font-heading text-[34px] font-bold leading-none text-text">
+              <h1 className="font-heading text-[29px] font-bold leading-none text-text">
                 Invoices
               </h1>
-              <p className="mt-1.5 text-[12px] font-medium text-[#888eb0]">
+              <p className="mt-1 text-[11px] font-medium text-[#888eb0]">
                 {invoices.length === 0
                   ? "No invoices"
                   : `There ${invoices.length === 1 ? "is" : "are"} ${invoices.length} total invoice${invoices.length === 1 ? "" : "s"}`}
               </p>
             </div>
 
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-6">
               <button
                 type="button"
-                className="flex items-center gap-2.5 text-[13px] font-bold text-[#1e2139]"
+                className="flex items-center gap-2 text-[12px] font-bold text-[#1e2139]"
               >
                 <span>Filter by status</span>
                 <FontAwesomeIcon
@@ -214,12 +214,12 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setIsFormOpen(true)}
-                className="flex items-center gap-3 rounded-full bg-primary px-2 py-2 pr-4 text-[13px] font-bold text-white transition-colors hover:bg-primary-hover"
+                className="flex items-center gap-2.5 rounded-full bg-primary px-2 py-1.5 pr-3.5 text-[12px] font-bold text-white transition-colors hover:bg-primary-hover"
               >
-                <span className="grid h-7 w-7 place-items-center rounded-full bg-primary text-bg">
+                <span className="grid h-6 w-6 place-items-center rounded-full bg-primary text-bg">
                   <FontAwesomeIcon
                     icon={faCirclePlus}
-                    className="text-[24px]"
+                    className="text-[20px]"
                   />
                 </span>
                 <span>New Invoice</span>
@@ -245,38 +245,38 @@ export default function App() {
               </p>
             </section>
           ) : (
-            <section className="mt-10 space-y-4">
+            <section className="mt-8 space-y-3">
               {invoices.map((invoice) => (
                 <article
                   key={invoice.id}
-                  className="grid grid-cols-[120px_1fr_1.2fr_140px_100px_16px] items-center gap-4 rounded-[8px] cursor-pointer bg-white px-8 py-5 shadow-[0_4px_12px_rgba(72,84,159,0.08)]"
+                  className="grid grid-cols-[102px_1fr_1.2fr_120px_86px_14px] items-center gap-3 rounded-[8px] cursor-pointer bg-white px-7 py-4 shadow-[0_4px_12px_rgba(72,84,159,0.08)]"
                 >
-                  <p className="text-[20px] font-bold text-text">
+                  <p className="text-[17px] font-bold text-text">
                     <span className="text-[#7e88c3]">#</span>
                     {invoice.id}
                   </p>
-                  <p className="text-[13px] font-medium text-[#7e88c3]">
+                  <p className="text-[11px] font-medium text-[#7e88c3]">
                     Due {invoice.dueDate}
                   </p>
-                  <p className="truncate text-[13px] font-medium text-[#7e88c3]">
+                  <p className="truncate text-[11px] font-medium text-[#7e88c3]">
                     {invoice.clientName}
                   </p>
-                  <p className="text-right text-[24px] font-bold text-text">
+                  <p className="text-right text-[20px] font-bold text-text">
                     {formatCurrency(invoice.total)}
                   </p>
                   <div
-                    className={`flex items-center justify-center gap-2 rounded-[6px] py-3 text-[15px] font-bold ${
+                    className={`flex items-center justify-center gap-1.5 rounded-[6px] py-2.5 text-[13px] font-bold ${
                       invoice.status === "pending"
                         ? "bg-[#fff8f0] text-[#ff8f00]"
                         : "bg-[#f4f4f8] text-[#373b53]"
                     }`}
                   >
-                    <span className="text-[20px] leading-none">•</span>
+                    <span className="text-[16px] leading-none">•</span>
                     <span className="capitalize">{invoice.status}</span>
                   </div>
                   <FontAwesomeIcon
                     icon={faAngleRight}
-                    className="text-[16px] text-primary"
+                    className="text-[14px] text-primary"
                   />
                 </article>
               ))}
