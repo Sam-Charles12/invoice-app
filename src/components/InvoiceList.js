@@ -10,13 +10,17 @@ export default function InvoiceList({
 }) {
   return (
     <section className="mt-8 space-y-3">
-      {invoices.map((invoice) => (
+      {invoices.map((invoice, index) => (
         <article
           key={invoice.id}
           onClick={() => onSelectInvoice(invoice.id)}
-          className={`grid cursor-pointer grid-cols-[102px_1fr_1.2fr_120px_86px_14px] items-center gap-3 rounded-[8px] px-7 py-4 shadow-[0_4px_12px_rgba(72,84,159,0.08)] ${
-            isDarkMode ? "bg-[#1e2139]" : "bg-white"
-          }`}
+          className={`grid cursor-pointer grid-cols-[102px_1fr_1.2fr_120px_86px_14px] items-center gap-3 rounded-[8px] border px-7 py-4 shadow-[0_4px_12px_rgba(72,84,159,0.08)] ${
+            index === 1
+              ? "border-primary"
+              : isDarkMode
+                ? "border-transparent"
+                : "border-transparent"
+          } ${isDarkMode ? "bg-[#1e2139]" : "bg-white"}`}
         >
           <p className="text-[17px] font-bold text-text">
             <span className="text-muted">#</span>

@@ -23,6 +23,7 @@ export default function App() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formData, setFormData] = useState(createInitialFormData());
   const [invoices, setInvoices] = useState([]);
+  const [selectedStatuses, setSelectedStatuses] = useState([]);
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const [editingInvoiceId, setEditingInvoiceId] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -92,7 +93,7 @@ export default function App() {
 
     requiredFields.forEach((fieldName) => {
       if (!String(formData[fieldName] || "").trim()) {
-        errors[fieldName] = "can't be empty";
+        errors[fieldName] = "can\'t be empty";
       }
     });
 
@@ -282,6 +283,28 @@ export default function App() {
     (invoice) => invoice.id === selectedInvoiceId,
   );
 
+  const filteredInvoices =
+    selectedStatuses.length === 0
+      ? invoices
+      : invoices.filter((invoice) => selectedStatuses.includes(invoice.status));
+
+  const summaryText =
+    invoices.length === 0
+      ? "No invoices"
+      : selectedStatuses.length === 1
+        ? `There ${filteredInvoices.length === 1 ? "is" : "are"} ${filteredInvoices.length} ${selectedStatuses[0]} invoice${filteredInvoices.length === 1 ? "" : "s"}`
+        : selectedStatuses.length > 1
+          ? `There ${filteredInvoices.length === 1 ? "is" : "are"} ${filteredInvoices.length} filtered invoice${filteredInvoices.length === 1 ? "" : "s"}`
+          : `There ${invoices.length === 1 ? "is" : "are"} ${invoices.length} total invoice${invoices.length === 1 ? "" : "s"}`;
+
+  const toggleStatusFilter = (status) => {
+    setSelectedStatuses((prev) =>
+      prev.includes(status)
+        ? prev.filter((currentStatus) => currentStatus !== status)
+        : [...prev, status],
+    );
+  };
+
   useEffect(() => {
     document.body.classList.toggle("theme-dark", isDarkMode);
 
@@ -302,9 +325,11 @@ export default function App() {
       <main className="ml-[80px] px-12 pb-8 pt-10">
         <section className="mx-auto max-w-[700px]">
           <InvoicesHeader
-            invoicesCount={invoices.length}
+            summaryText={summaryText}
             onNewInvoice={openNewInvoiceForm}
             isDarkMode={isDarkMode}
+            selectedStatuses={selectedStatuses}
+            onToggleStatusFilter={toggleStatusFilter}
           />
 
           {selectedInvoice ? (
@@ -320,11 +345,11 @@ export default function App() {
               formatCurrency={formatCurrency}
               isDarkMode={isDarkMode}
             />
-          ) : invoices.length === 0 ? (
+          ) : filteredInvoices.length === 0 ? (
             <EmptyInvoicesState />
           ) : (
             <InvoiceList
-              invoices={invoices}
+              invoices={filteredInvoices}
               onSelectInvoice={setSelectedInvoiceId}
               formatCurrency={formatCurrency}
               getStatusStyle={getStatusStyle}
