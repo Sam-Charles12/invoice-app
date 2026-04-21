@@ -14,7 +14,7 @@ export default function InvoiceDetails({
   isDarkMode,
 }) {
   return (
-    <section className="mt-8 space-y-6">
+    <section className="mt-8 space-y-6 pb-28 md:pb-0">
       <button
         type="button"
         onClick={onBack}
@@ -28,7 +28,7 @@ export default function InvoiceDetails({
       </button>
 
       <div
-        className={`flex items-center justify-between rounded-[8px] px-8 py-6 shadow-[0_4px_12px_rgba(72,84,159,0.08)] ${
+        className={`flex items-center justify-between rounded-[8px] px-6 py-6 shadow-[0_4px_12px_rgba(72,84,159,0.08)] md:px-8 ${
           isDarkMode ? "bg-[#1e2139]" : "bg-white"
         }`}
       >
@@ -46,7 +46,7 @@ export default function InvoiceDetails({
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="hidden items-center gap-1.5 sm:gap-2 md:flex">
             <button
               type="button"
               onClick={onEdit}
@@ -73,11 +73,93 @@ export default function InvoiceDetails({
       </div>
 
       <article
-        className={`rounded-[8px] px-10 py-10 shadow-[0_4px_12px_rgba(72,84,159,0.08)] ${
+        className={`rounded-[8px] px-6 py-8 shadow-[0_4px_12px_rgba(72,84,159,0.08)] md:px-10 md:py-10 ${
           isDarkMode ? "bg-[#1e2139]" : "bg-white"
         }`}
       >
-        <div className="w-[117.647%] origin-top-left scale-[0.85]">
+        <div className="space-y-8 md:hidden">
+          <div>
+            <h2 className="text-[17px] font-bold leading-none text-text">
+              <span className="text-muted">#</span>
+              {invoice.id}
+            </h2>
+            <p className="mt-2 text-[15px] text-muted">{invoice.description}</p>
+          </div>
+
+          <div className="text-[15px] leading-7 text-muted">
+            {formatAddressLines(invoice.senderAddress).map((line) => (
+              <p key={`sender-mobile-${line}`}>{line}</p>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-2 gap-8">
+            <div>
+              <p className="text-[12px] text-muted">Invoice Date</p>
+              <p className="mt-3 text-[17px] font-bold leading-none text-text">
+                {invoice.createdAt}
+              </p>
+
+              <p className="mt-8 text-[12px] text-muted">Payment Due</p>
+              <p className="mt-3 text-[17px] font-bold leading-none text-text">
+                {invoice.dueDate}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-[12px] text-muted">Bill To</p>
+              <p className="mt-3 text-[17px] font-bold leading-none text-text">
+                {invoice.clientName}
+              </p>
+              <div className="mt-3 text-[15px] leading-7 text-muted">
+                {formatAddressLines(invoice.clientAddress).map((line) => (
+                  <p key={`client-mobile-${line}`}>{line}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-[12px] text-muted">Sent to</p>
+            <p className="mt-3 break-all text-[17px] font-bold leading-none text-text">
+              {invoice.clientEmail}
+            </p>
+          </div>
+
+          <div className="overflow-hidden rounded-[8px] bg-[var(--soft-bg)]">
+            <div className="space-y-6 px-6 pb-8 pt-8">
+              {invoice.items.map((item, index) => {
+                const itemTotal = Number(getLineTotal(item));
+                return (
+                  <div
+                    key={`detail-item-mobile-${index}`}
+                    className="flex items-end justify-between gap-4"
+                  >
+                    <div>
+                      <p className="text-[15px] font-bold leading-none text-text">
+                        {item.name || "Untitled item"}
+                      </p>
+                      <p className="mt-2 text-[15px] font-bold leading-none text-muted">
+                        {item.quantity || 0} x {formatCurrency(Number(item.price) || 0)}
+                      </p>
+                    </div>
+                    <p className="text-[17px] font-bold leading-none text-text">
+                      {formatCurrency(Number.isFinite(itemTotal) ? itemTotal : 0)}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="flex items-center justify-between bg-[var(--panel-strong)] px-6 py-6 text-white">
+              <span className="text-[13px] font-medium">Grand Total</span>
+              <span className="text-[24px] font-bold leading-none">
+                {formatCurrency(invoice.total)}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="hidden w-[117.647%] origin-top-left scale-[0.85] md:block">
           <div className="flex items-start justify-between">
             <div>
               <h2 className="text-[17px] font-bold text-text">
@@ -171,6 +253,34 @@ export default function InvoiceDetails({
           </div>
         </div>
       </article>
+
+      <div
+        className={`fixed inset-x-0 bottom-0 z-20 flex items-center gap-3 px-6 py-6 shadow-[0_-10px_24px_rgba(72,84,159,0.08)] md:hidden ${
+          isDarkMode ? "bg-[#141625]" : "bg-white"
+        }`}
+      >
+        <button
+          type="button"
+          onClick={onEdit}
+          className="flex-1 whitespace-nowrap rounded-full bg-[var(--soft-bg)] px-4 py-3 text-[13px] font-bold text-[#7e88c3] transition-colors hover:bg-[var(--soft-bg-hover)]"
+        >
+          Edit
+        </button>
+        <button
+          type="button"
+          onClick={onDelete}
+          className="flex-1 whitespace-nowrap rounded-full bg-danger px-4 py-3 text-[13px] font-bold text-white transition-colors hover:bg-[#ff9797]"
+        >
+          Delete
+        </button>
+        <button
+          type="button"
+          onClick={onMarkAsPaid}
+          className="flex-[1.4] whitespace-nowrap rounded-full bg-primary px-4 py-3 text-[13px] font-bold text-white transition-colors hover:bg-primary-hover"
+        >
+          Mark as Paid
+        </button>
+      </div>
     </section>
   );
 }

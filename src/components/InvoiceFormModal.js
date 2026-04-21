@@ -1,5 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleRight,
+  faChevronDown,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function InvoiceFormModal({
   isOpen,
@@ -28,7 +32,7 @@ export default function InvoiceFormModal({
   };
 
   const getItemInputClass = (fieldName) => {
-    return `h-10 rounded-[4px] border border-border bg-[var(--input-bg)] px-3 text-[13px] font-bold text-text outline-none ${
+    return `h-11 rounded-[4px] border border-border bg-[var(--input-bg)] px-3 text-[13px] font-bold text-text outline-none sm:h-10 sm:text-[13px] ${
       formErrors[fieldName] ? "border-danger focus:border-danger" : ""
     }`;
   };
@@ -39,18 +43,29 @@ export default function InvoiceFormModal({
       onClick={onClose}
     >
       <div
-        className={`absolute top-0 flex h-full w-[min(80vw,616px)] flex-col rounded-r-[16px] shadow-[0_20px_40px_rgba(72,84,159,0.25)] lg:w-[clamp(320px,52vw,540px)] ${
+        className={`absolute top-0 flex h-full w-full flex-col shadow-[0_20px_40px_rgba(72,84,159,0.25)] sm:w-[min(80vw,616px)] sm:rounded-r-[16px] lg:w-[clamp(320px,52vw,540px)] ${
           isDarkMode ? "bg-[#141625]" : "bg-white"
         }`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-10 pb-6 pt-8">
+        <div className="px-6 pb-4 pt-6 sm:px-10 sm:pb-6 sm:pt-8">
+          <button
+            type="button"
+            onClick={onClose}
+            className="mb-6 inline-flex items-center gap-3 text-[12px] font-bold text-text sm:hidden"
+          >
+            <FontAwesomeIcon
+              icon={faAngleRight}
+              className="rotate-180 text-[10px] text-primary"
+            />
+            <span>Go back</span>
+          </button>
           <h2 className="font-heading text-[28px] font-bold leading-none text-text">
             {editingInvoiceId ? `Edit #${editingInvoiceId}` : "New Invoice"}
           </h2>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-10 pb-28">
+        <div className="flex-1 overflow-y-auto px-6 pb-28 sm:px-10">
           <section className="space-y-5">
             <h3 className="text-[13px] font-bold text-primary">Bill From</h3>
 
@@ -74,7 +89,7 @@ export default function InvoiceFormModal({
                 />
               </label>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                 <label className="flex flex-col gap-3">
                   <span className="text-[12px] leading-none text-muted">
                     City
@@ -101,7 +116,7 @@ export default function InvoiceFormModal({
                     className={getInputClass("senderPostCode")}
                   />
                 </label>
-                <label className="flex flex-col gap-3">
+                <label className="col-span-2 flex flex-col gap-3 sm:col-span-1">
                   <span className="text-[12px] leading-none text-muted">
                     Country
                   </span>
@@ -167,7 +182,7 @@ export default function InvoiceFormModal({
                 />
               </label>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                 <label className="flex flex-col gap-3">
                   <span className="text-[12px] leading-none text-muted">
                     City
@@ -194,7 +209,7 @@ export default function InvoiceFormModal({
                     className={getInputClass("clientPostCode")}
                   />
                 </label>
-                <label className="flex flex-col gap-3">
+                <label className="col-span-2 flex flex-col gap-3 sm:col-span-1">
                   <span className="text-[12px] leading-none text-muted">
                     Country
                   </span>
@@ -267,7 +282,7 @@ export default function InvoiceFormModal({
             <div className="space-y-3.5">
               <h4 className="text-[15px] font-bold text-muted">Item List</h4>
 
-              <div className="grid grid-cols-[minmax(150px,1fr)_56px_90px_90px_16px] gap-2.5 text-[12px] text-muted">
+              <div className="hidden grid-cols-[minmax(150px,1fr)_56px_90px_90px_16px] gap-2.5 text-[12px] text-muted sm:grid">
                 <span>Item Name</span>
                 <span>Qty.</span>
                 <span>Price</span>
@@ -275,54 +290,120 @@ export default function InvoiceFormModal({
               </div>
 
               {formData.items.map((item, index) => (
-                <div
-                  key={`item-${index}`}
-                  className="grid grid-cols-[minmax(150px,1fr)_56px_90px_90px_16px] items-center gap-2.5"
-                >
-                  <input
-                    type="text"
-                    value={item.name}
-                    onChange={(event) =>
-                      onItemChange(index, "name", event.target.value)
-                    }
-                    placeholder="Item Name"
-                    className={getItemInputClass(`item-name-${index}`)}
-                  />
-                  <input
-                    type="number"
-                    min="1"
-                    value={item.quantity}
-                    onChange={(event) =>
-                      onItemChange(index, "quantity", event.target.value)
-                    }
-                    placeholder="1"
-                    className={getItemInputClass(`item-quantity-${index}`)}
-                  />
-                  <input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={item.price}
-                    onChange={(event) =>
-                      onItemChange(index, "price", event.target.value)
-                    }
-                    placeholder="0.00"
-                    className={getItemInputClass(`item-price-${index}`)}
-                  />
-                  <input
-                    type="text"
-                    value={getLineTotal(item)}
-                    readOnly
-                    className="h-10 border-none bg-transparent px-0 text-[13px] font-bold text-muted outline-none"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => onRemoveItem(index)}
-                    aria-label="Remove item"
-                    className="grid h-6 w-6 place-items-center text-[12px] text-muted transition-colors hover:text-danger"
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
+                <div key={`item-${index}`} className="space-y-3 sm:space-y-0">
+                  <div className="space-y-2 sm:hidden">
+                    <label className="block text-[12px] leading-none text-muted">
+                      Item Name
+                    </label>
+                    <input
+                      type="text"
+                      value={item.name}
+                      onChange={(event) =>
+                        onItemChange(index, "name", event.target.value)
+                      }
+                      placeholder="Item Name"
+                      className={getItemInputClass(`item-name-${index}`)}
+                    />
+                    <div className="grid grid-cols-[62px_96px_1fr_20px] items-end gap-3">
+                      <div>
+                        <label className="block text-[12px] leading-none text-muted">
+                          Qty.
+                        </label>
+                        <input
+                          type="number"
+                          min="1"
+                          value={item.quantity}
+                          onChange={(event) =>
+                            onItemChange(index, "quantity", event.target.value)
+                          }
+                          placeholder="1"
+                          className={getItemInputClass(`item-quantity-${index}`)}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[12px] leading-none text-muted">
+                          Price
+                        </label>
+                        <input
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          value={item.price}
+                          onChange={(event) =>
+                            onItemChange(index, "price", event.target.value)
+                          }
+                          placeholder="0.00"
+                          className={getItemInputClass(`item-price-${index}`)}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[12px] leading-none text-muted">
+                          Total
+                        </label>
+                        <input
+                          type="text"
+                          value={getLineTotal(item)}
+                          readOnly
+                          className="h-11 border-none bg-transparent px-0 text-[13px] font-bold text-muted outline-none sm:h-10 sm:text-[13px]"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => onRemoveItem(index)}
+                        aria-label="Remove item"
+                        className="grid h-6 w-6 place-items-center text-[12px] text-muted transition-colors hover:text-danger"
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="hidden grid-cols-[minmax(150px,1fr)_56px_90px_90px_16px] items-center gap-2.5 sm:grid">
+                    <input
+                      type="text"
+                      value={item.name}
+                      onChange={(event) =>
+                        onItemChange(index, "name", event.target.value)
+                      }
+                      placeholder="Item Name"
+                      className={getItemInputClass(`item-name-${index}`)}
+                    />
+                    <input
+                      type="number"
+                      min="1"
+                      value={item.quantity}
+                      onChange={(event) =>
+                        onItemChange(index, "quantity", event.target.value)
+                      }
+                      placeholder="1"
+                      className={getItemInputClass(`item-quantity-${index}`)}
+                    />
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={item.price}
+                      onChange={(event) =>
+                        onItemChange(index, "price", event.target.value)
+                      }
+                      placeholder="0.00"
+                      className={getItemInputClass(`item-price-${index}`)}
+                    />
+                    <input
+                      type="text"
+                      value={getLineTotal(item)}
+                      readOnly
+                      className="h-11 border-none bg-transparent px-0 text-[13px] font-bold text-muted outline-none sm:h-10 sm:text-[13px]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => onRemoveItem(index)}
+                      aria-label="Remove item"
+                      className="grid h-6 w-6 place-items-center text-[12px] text-muted transition-colors hover:text-danger"
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </div>
                 </div>
               ))}
 
@@ -346,7 +427,7 @@ export default function InvoiceFormModal({
         </div>
 
         <div
-          className={`absolute bottom-0 left-0 right-0 flex items-center justify-between rounded-r-[16px] px-10 py-4 shadow-[0_-10px_24px_rgba(72,84,159,0.08)] ${
+          className={`absolute bottom-0 left-0 right-0 flex items-center justify-between px-6 py-4 shadow-[0_-10px_24px_rgba(72,84,159,0.08)] sm:rounded-r-[16px] sm:px-10 ${
             isDarkMode ? "bg-[#141625]" : "bg-white"
           }`}
         >

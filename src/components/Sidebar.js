@@ -20,7 +20,9 @@ export default function Sidebar({ isDarkMode, onToggleTheme }) {
         <button
           type="button"
           onClick={onToggleTheme}
-          aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+          aria-label={
+            isDarkMode ? "Switch to light mode" : "Switch to dark mode"
+          }
           className={`mx-6 transition-colors hover:text-white lg:mx-0 lg:mb-6 ${
             isDarkMode ? "text-[#dfe3fa]" : "text-[#7e88c3]"
           }`}

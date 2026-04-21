@@ -19,7 +19,10 @@ import {
 } from "./utils/invoiceUtils";
 
 export default function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem("invoice-theme");
+    return savedTheme === "dark";
+  });
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formData, setFormData] = useState(createInitialFormData());
   const [invoices, setInvoices] = useState([]);
@@ -31,7 +34,7 @@ export default function App() {
   const [formAlerts, setFormAlerts] = useState([]);
 
   const inputClass =
-    "h-10 rounded-[4px] border border-border bg-[var(--input-bg)] px-4 text-[13px] font-bold text-text outline-none transition-colors focus:border-primary";
+    "h-11 rounded-[4px] border border-border bg-[var(--input-bg)] px-4 text-[13px] font-bold text-text outline-none transition-colors focus:border-primary sm:h-10 sm:text-[13px]";
 
   const handleFieldChange = (event) => {
     const { name, value } = event.target;
@@ -76,6 +79,7 @@ export default function App() {
 
   const validateInvoiceForm = () => {
     const errors = {};
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const requiredFields = [
       "senderStreet",
       "senderCity",
@@ -93,26 +97,33 @@ export default function App() {
 
     requiredFields.forEach((fieldName) => {
       if (!String(formData[fieldName] || "").trim()) {
-        errors[fieldName] = "can\'t be empty";
+        errors[fieldName] = "can't be empty";
       }
     });
+
+    if (
+      String(formData.clientEmail || "").trim() &&
+      !emailPattern.test(formData.clientEmail)
+    ) {
+      errors.clientEmail = "invalid email";
+    }
 
     const hasCompleteItem = formData.items.some(
       (item) =>
         String(item.name || "").trim() &&
         Number(item.quantity) > 0 &&
-        String(item.price || "").trim(),
+        Number(item.price) > 0,
     );
 
     formData.items.forEach((item, index) => {
       if (!String(item.name || "").trim()) {
-        errors[`item-name-${index}`] = "can\'t be empty";
+        errors[`item-name-${index}`] = "can't be empty";
       }
       if (!(Number(item.quantity) > 0)) {
-        errors[`item-quantity-${index}`] = "can\'t be empty";
+        errors[`item-quantity-${index}`] = "must be greater than 0";
       }
-      if (!String(item.price || "").trim()) {
-        errors[`item-price-${index}`] = "can\'t be empty";
+      if (!(Number(item.price) > 0)) {
+        errors[`item-price-${index}`] = "must be greater than 0";
       }
     });
 
@@ -239,7 +250,7 @@ export default function App() {
   };
 
   const markAsPaid = () => {
-    if (!selectedInvoiceId) {
+    if (!selectedInvoiceId || selectedInvoice?.status !== "pending") {
       return;
     }
     setInvoices((prev) =>
@@ -297,7 +308,19 @@ export default function App() {
           ? `There ${filteredInvoices.length === 1 ? "is" : "are"} ${filteredInvoices.length} filtered invoice${filteredInvoices.length === 1 ? "" : "s"}`
           : `There ${invoices.length === 1 ? "is" : "are"} ${invoices.length} total invoice${invoices.length === 1 ? "" : "s"}`;
 
+  const compactSummaryText =
+    filteredInvoices.length === 0
+      ? "No invoices"
+      : selectedStatuses.length === 1
+        ? `${filteredInvoices.length} ${selectedStatuses[0]} invoice${filteredInvoices.length === 1 ? "" : "s"}`
+        : `${filteredInvoices.length} invoice${filteredInvoices.length === 1 ? "" : "s"}`;
+
   const toggleStatusFilter = (status) => {
+    if (status === "all") {
+      setSelectedStatuses([]);
+      return;
+    }
+
     setSelectedStatuses((prev) =>
       prev.includes(status)
         ? prev.filter((currentStatus) => currentStatus !== status)
@@ -307,6 +330,7 @@ export default function App() {
 
   useEffect(() => {
     document.body.classList.toggle("theme-dark", isDarkMode);
+    localStorage.setItem("invoice-theme", isDarkMode ? "dark" : "light");
 
     return () => {
       document.body.classList.remove("theme-dark");
@@ -322,10 +346,11 @@ export default function App() {
         onToggleTheme={() => setIsDarkMode((prev) => !prev)}
       />
 
-      <main className="mt-[80px] px-10 pb-8 pt-10 lg:ml-[80px] lg:mt-0 lg:px-12">
+      <main className="mt-[80px] px-6 pb-8 pt-8 sm:px-10 sm:pt-10 lg:ml-[80px] lg:mt-0 lg:px-12">
         <section className="mx-auto max-w-[700px]">
           <InvoicesHeader
             summaryText={summaryText}
+            compactSummaryText={compactSummaryText}
             onNewInvoice={openNewInvoiceForm}
             isDarkMode={isDarkMode}
             selectedStatuses={selectedStatuses}
@@ -339,6 +364,7 @@ export default function App() {
               onEdit={() => openEditInvoiceForm(selectedInvoice)}
               onDelete={openDeleteModal}
               onMarkAsPaid={markAsPaid}
+              canMarkAsPaid={selectedInvoice.status === "pending"}
               getStatusStyle={getStatusStyle}
               formatAddressLines={formatAddressLines}
               getLineTotal={getLineTotal}

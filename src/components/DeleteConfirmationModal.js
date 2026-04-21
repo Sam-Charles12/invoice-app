@@ -15,7 +15,7 @@ export default function DeleteConfirmationModal({
       onClick={onCancel}
     >
       <div
-        className={`w-full max-w-[480px] rounded-[10px] px-12 py-10 shadow-[0_24px_44px_rgba(72,84,159,0.22)] ${
+        className={`w-full max-w-[480px] rounded-[10px] px-7 py-8 shadow-[0_24px_44px_rgba(72,84,159,0.22)] sm:px-12 sm:py-10 ${
           isDarkMode ? "bg-[#1e2139]" : "bg-white"
         }`}
         onClick={(event) => event.stopPropagation()}
@@ -29,7 +29,7 @@ export default function DeleteConfirmationModal({
           cannot be undone.
         </p>
 
-        <div className="mt-8 flex justify-end gap-2">
+        <div className="mt-8 flex justify-end gap-3 sm:gap-2">
           <button
             type="button"
             onClick={onCancel}
