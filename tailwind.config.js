@@ -4,16 +4,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        bg: "#f7f8fc",
-        surface: "#ffffff",
-        text: "#1e2139",
-        muted: "#888eb0",
-        primary: "#7c5dfa",
-        "primary-hover": "#9277ff",
-        danger: "#ec5757",
-        "danger-hover": "#ff9797",
-        border: "#dfe3fa",
-        dark: "#252945",
+        bg: "var(--bg)",
+        surface: "var(--surface)",
+        text: "var(--text)",
+        muted: "var(--muted)",
+        primary: "var(--primary)",
+        "primary-hover": "var(--primary-hover)",
+        danger: "var(--danger)",
+        "danger-hover": "var(--danger-hover)",
+        border: "var(--border)",
+        dark: "var(--dark)",
       },
       fontFamily: {
         sans: ["Poppins", "sans-serif"],

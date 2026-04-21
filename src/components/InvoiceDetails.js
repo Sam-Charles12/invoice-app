@@ -11,6 +11,7 @@ export default function InvoiceDetails({
   formatAddressLines,
   getLineTotal,
   formatCurrency,
+  isDarkMode,
 }) {
   return (
     <section className="mt-8 space-y-6">
@@ -19,16 +20,26 @@ export default function InvoiceDetails({
         onClick={onBack}
         className="inline-flex items-center gap-4 text-[12px] font-bold text-text"
       >
-        <FontAwesomeIcon icon={faAngleRight} className="rotate-180 text-[10px] text-primary" />
+        <FontAwesomeIcon
+          icon={faAngleRight}
+          className="rotate-180 text-[10px] text-primary"
+        />
         <span>Go back</span>
       </button>
 
-      <div className="flex items-center justify-between rounded-[8px] bg-white px-8 py-6 shadow-[0_4px_12px_rgba(72,84,159,0.08)]">
+      <div
+        className={`flex items-center justify-between rounded-[8px] px-8 py-6 shadow-[0_4px_12px_rgba(72,84,159,0.08)] ${
+          isDarkMode ? "bg-[#1e2139]" : "bg-white"
+        }`}
+      >
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="text-[13px] text-[#858bb2]">Status</span>
             <div
-              className={`flex items-center justify-center gap-1.5 rounded-[6px] px-4 py-2.5 text-[13px] font-bold ${getStatusStyle(invoice.status)}`}
+              className={`flex items-center justify-center gap-1.5 rounded-[6px] px-4 py-2.5 text-[13px] font-bold ${getStatusStyle(
+                invoice.status,
+                isDarkMode,
+              )}`}
             >
               <span className="text-[16px] leading-none">•</span>
               <span className="capitalize">{invoice.status}</span>
@@ -39,7 +50,7 @@ export default function InvoiceDetails({
             <button
               type="button"
               onClick={onEdit}
-              className="rounded-full bg-[#f9fafe] px-5 py-3 text-[13px] font-bold text-[#7e88c3] transition-colors hover:bg-[#edf0fd]"
+              className="rounded-full bg-[var(--soft-bg)] px-5 py-3 text-[13px] font-bold text-[#7e88c3] transition-colors hover:bg-[var(--soft-bg-hover)]"
             >
               Edit
             </button>
@@ -61,7 +72,11 @@ export default function InvoiceDetails({
         </div>
       </div>
 
-      <article className="rounded-[8px] bg-white px-10 py-10 shadow-[0_4px_12px_rgba(72,84,159,0.08)]">
+      <article
+        className={`rounded-[8px] px-10 py-10 shadow-[0_4px_12px_rgba(72,84,159,0.08)] ${
+          isDarkMode ? "bg-[#1e2139]" : "bg-white"
+        }`}
+      >
         <div className="w-[117.647%] origin-top-left scale-[0.85]">
           <div className="flex items-start justify-between">
             <div>
@@ -69,7 +84,9 @@ export default function InvoiceDetails({
                 <span className="text-[#7e88c3]">#</span>
                 {invoice.id}
               </h2>
-              <p className="mt-2 text-[12px] text-[#7e88c3]">{invoice.description}</p>
+              <p className="mt-2 text-[12px] text-[#7e88c3]">
+                {invoice.description}
+              </p>
             </div>
 
             <div className="text-right text-[12px] leading-5 text-[#7e88c3]">
@@ -82,15 +99,21 @@ export default function InvoiceDetails({
           <div className="mt-8 grid grid-cols-3 gap-8">
             <div>
               <p className="text-[12px] text-[#7e88c3]">Invoice Date</p>
-              <p className="mt-3 text-[15px] font-bold text-text">{invoice.createdAt}</p>
+              <p className="mt-3 text-[15px] font-bold text-text">
+                {invoice.createdAt}
+              </p>
 
               <p className="mt-8 text-[12px] text-[#7e88c3]">Payment Due</p>
-              <p className="mt-3 text-[15px] font-bold text-text">{invoice.dueDate}</p>
+              <p className="mt-3 text-[15px] font-bold text-text">
+                {invoice.dueDate}
+              </p>
             </div>
 
             <div>
               <p className="text-[12px] text-[#7e88c3]">Bill To</p>
-              <p className="mt-3 text-[15px] font-bold text-text">{invoice.clientName}</p>
+              <p className="mt-3 text-[15px] font-bold text-text">
+                {invoice.clientName}
+              </p>
               <div className="mt-3 text-[12px] leading-5 text-[#7e88c3]">
                 {formatAddressLines(invoice.clientAddress).map((line) => (
                   <p key={`client-${line}`}>{line}</p>
@@ -100,11 +123,13 @@ export default function InvoiceDetails({
 
             <div>
               <p className="text-[12px] text-[#7e88c3]">Sent to</p>
-              <p className="mt-3 break-all text-[15px] font-bold text-text">{invoice.clientEmail}</p>
+              <p className="mt-3 break-all text-[15px] font-bold text-text">
+                {invoice.clientEmail}
+              </p>
             </div>
           </div>
 
-          <div className="mt-10 overflow-hidden rounded-[8px] bg-[#f9fafe]">
+          <div className="mt-10 overflow-hidden rounded-[8px] bg-[var(--soft-bg)]">
             <div className="space-y-3 px-8 pb-8 pt-6">
               <div className="grid grid-cols-[1fr_80px_120px_120px] text-[12px] text-[#7e88c3]">
                 <span>Item Name</span>
@@ -121,21 +146,27 @@ export default function InvoiceDetails({
                     className="grid grid-cols-[1fr_80px_120px_120px] text-[13px] font-bold text-text"
                   >
                     <span>{item.name || "Untitled item"}</span>
-                    <span className="text-right text-[#7e88c3]">{item.quantity || 0}</span>
+                    <span className="text-right text-[#7e88c3]">
+                      {item.quantity || 0}
+                    </span>
                     <span className="text-right text-[#7e88c3]">
                       {formatCurrency(Number(item.price) || 0)}
                     </span>
                     <span className="text-right">
-                      {formatCurrency(Number.isFinite(itemTotal) ? itemTotal : 0)}
+                      {formatCurrency(
+                        Number.isFinite(itemTotal) ? itemTotal : 0,
+                      )}
                     </span>
                   </div>
                 );
               })}
             </div>
 
-            <div className="flex items-center justify-between bg-[#373b53] px-8 py-6 text-white">
+            <div className="flex items-center justify-between bg-[var(--panel-strong)] px-8 py-6 text-white">
               <span className="text-[12px]">Amount Due</span>
-              <span className="text-[24px] font-bold">{formatCurrency(invoice.total)}</span>
+              <span className="text-[24px] font-bold">
+                {formatCurrency(invoice.total)}
+              </span>
             </div>
           </div>
         </div>

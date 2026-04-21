@@ -13,8 +13,8 @@ export default function EmptyInvoicesState() {
         There is nothing here
       </h2>
       <p className="mt-4 max-w-[220px] text-[12px] font-medium leading-5 text-muted">
-        Create an invoice by clicking the <span className="font-bold">New Invoice</span>{" "}
-        button and get started
+        Create an invoice by clicking the{" "}
+        <span className="font-bold">New Invoice</span> button and get started
       </p>
     </section>
   );

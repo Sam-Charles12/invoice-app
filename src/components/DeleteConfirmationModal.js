@@ -3,6 +3,7 @@ export default function DeleteConfirmationModal({
   invoiceId,
   onCancel,
   onConfirm,
+  isDarkMode,
 }) {
   if (!isOpen) {
     return null;
@@ -10,18 +11,20 @@ export default function DeleteConfirmationModal({
 
   return (
     <div
-      className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 px-5"
+      className="fixed inset-0 z-40 flex items-center justify-center bg-[var(--overlay)] px-5"
       onClick={onCancel}
     >
       <div
-        className="w-full max-w-[480px] rounded-[10px] bg-white px-12 py-10 shadow-[0_24px_44px_rgba(72,84,159,0.22)]"
+        className={`w-full max-w-[480px] rounded-[10px] px-12 py-10 shadow-[0_24px_44px_rgba(72,84,159,0.22)] ${
+          isDarkMode ? "bg-[#1e2139]" : "bg-white"
+        }`}
         onClick={(event) => event.stopPropagation()}
       >
         <h2 className="font-heading text-[32px] font-bold leading-none text-text">
           Confirm Deletion
         </h2>
 
-        <p className="mt-7 text-[13px] font-medium leading-6 text-[#888eb0]">
+        <p className="mt-7 text-[13px] font-medium leading-6 text-muted">
           Are you sure you want to delete invoice #{invoiceId}? This action
           cannot be undone.
         </p>
@@ -30,7 +33,7 @@ export default function DeleteConfirmationModal({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-full bg-[#f9fafe] px-6 py-3 text-[13px] font-bold text-[#7e88c3] transition-colors hover:bg-[#edf0fd]"
+            className="rounded-full bg-[var(--soft-bg)] px-6 py-3 text-[13px] font-bold text-[#7e88c3] transition-colors hover:bg-[var(--soft-bg-hover)]"
           >
             Cancel
           </button>

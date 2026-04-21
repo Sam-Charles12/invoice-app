@@ -2,12 +2,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
 import logo from "../img/Oval.png";
 
-export default function Sidebar() {
+export default function Sidebar({ isDarkMode, onToggleTheme }) {
   return (
     <aside className="fixed left-0 top-0 z-20 flex h-screen w-[80px] flex-col overflow-hidden rounded-r-[16px] bg-dark">
       <div className="relative h-[92px] bg-primary">
         <div className="absolute inset-0 flex items-center justify-center">
-          <img src={logo} alt="Invoice logo" className="h-6 w-6 object-contain" />
+          <img
+            src={logo}
+            alt="Invoice logo"
+            className="h-6 w-6 object-contain"
+          />
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-1/2 rounded-tl-[16px] bg-primary-hover" />
       </div>
@@ -15,8 +19,11 @@ export default function Sidebar() {
       <div className="mt-auto flex flex-col items-center">
         <button
           type="button"
+          onClick={onToggleTheme}
           aria-label="Toggle theme"
-          className="mb-6 text-[#7e88c3] transition-colors hover:text-white"
+          className={`mb-6 transition-colors hover:text-white ${
+            isDarkMode ? "text-[#dfe3fa]" : "text-[#7e88c3]"
+          }`}
         >
           <FontAwesomeIcon icon={faMoon} className="text-[18px]" />
         </button>

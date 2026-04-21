@@ -4,6 +4,7 @@ import { faChevronDown, faTrash } from "@fortawesome/free-solid-svg-icons";
 export default function InvoiceFormModal({
   isOpen,
   editingInvoiceId,
+  isDarkMode,
   formData,
   inputClass,
   onClose,
@@ -21,9 +22,14 @@ export default function InvoiceFormModal({
   }
 
   return (
-    <div className="fixed inset-0 left-[80px] z-30 bg-black/50" onClick={onClose}>
+    <div
+      className="fixed inset-0 left-[80px] z-30 bg-[var(--overlay)]"
+      onClick={onClose}
+    >
       <div
-        className="absolute top-0 flex h-full w-[clamp(320px,52vw,540px)] flex-col rounded-r-[16px] bg-white shadow-[0_20px_40px_rgba(72,84,159,0.25)]"
+        className={`absolute top-0 flex h-full w-[clamp(320px,52vw,540px)] flex-col rounded-r-[16px] shadow-[0_20px_40px_rgba(72,84,159,0.25)] ${
+          isDarkMode ? "bg-[#141625]" : "bg-white"
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-10 pb-6 pt-8">
@@ -38,7 +44,9 @@ export default function InvoiceFormModal({
 
             <div className="space-y-5">
               <label className="flex flex-col gap-3">
-                <span className="text-[12px] leading-none text-[#7e88c3]">Street Address</span>
+                <span className="text-[12px] leading-none text-muted">
+                  Street Address
+                </span>
                 <input
                   type="text"
                   name="senderStreet"
@@ -51,7 +59,9 @@ export default function InvoiceFormModal({
 
               <div className="grid grid-cols-3 gap-4">
                 <label className="flex flex-col gap-3">
-                  <span className="text-[12px] leading-none text-[#7e88c3]">City</span>
+                  <span className="text-[12px] leading-none text-muted">
+                    City
+                  </span>
                   <input
                     type="text"
                     name="senderCity"
@@ -62,7 +72,9 @@ export default function InvoiceFormModal({
                   />
                 </label>
                 <label className="flex flex-col gap-3">
-                  <span className="text-[12px] leading-none text-[#7e88c3]">Post Code</span>
+                  <span className="text-[12px] leading-none text-muted">
+                    Post Code
+                  </span>
                   <input
                     type="text"
                     name="senderPostCode"
@@ -73,7 +85,9 @@ export default function InvoiceFormModal({
                   />
                 </label>
                 <label className="flex flex-col gap-3">
-                  <span className="text-[12px] leading-none text-[#7e88c3]">Country</span>
+                  <span className="text-[12px] leading-none text-muted">
+                    Country
+                  </span>
                   <input
                     type="text"
                     name="senderCountry"
@@ -92,7 +106,9 @@ export default function InvoiceFormModal({
 
             <div className="space-y-5">
               <label className="flex flex-col gap-3">
-                <span className="text-[12px] leading-none text-[#7e88c3]">Client&apos;s Name</span>
+                <span className="text-[12px] leading-none text-muted">
+                  Client&apos;s Name
+                </span>
                 <input
                   type="text"
                   name="clientName"
@@ -103,7 +119,9 @@ export default function InvoiceFormModal({
                 />
               </label>
               <label className="flex flex-col gap-3">
-                <span className="text-[12px] leading-none text-[#7e88c3]">Client&apos;s Email</span>
+                <span className="text-[12px] leading-none text-muted">
+                  Client&apos;s Email
+                </span>
                 <input
                   type="email"
                   name="clientEmail"
@@ -114,7 +132,9 @@ export default function InvoiceFormModal({
                 />
               </label>
               <label className="flex flex-col gap-3">
-                <span className="text-[12px] leading-none text-[#7e88c3]">Street Address</span>
+                <span className="text-[12px] leading-none text-muted">
+                  Street Address
+                </span>
                 <input
                   type="text"
                   name="clientStreet"
@@ -127,7 +147,9 @@ export default function InvoiceFormModal({
 
               <div className="grid grid-cols-3 gap-4">
                 <label className="flex flex-col gap-3">
-                  <span className="text-[12px] leading-none text-[#7e88c3]">City</span>
+                  <span className="text-[12px] leading-none text-muted">
+                    City
+                  </span>
                   <input
                     type="text"
                     name="clientCity"
@@ -138,7 +160,9 @@ export default function InvoiceFormModal({
                   />
                 </label>
                 <label className="flex flex-col gap-3">
-                  <span className="text-[12px] leading-none text-[#7e88c3]">Post Code</span>
+                  <span className="text-[12px] leading-none text-muted">
+                    Post Code
+                  </span>
                   <input
                     type="text"
                     name="clientPostCode"
@@ -149,7 +173,9 @@ export default function InvoiceFormModal({
                   />
                 </label>
                 <label className="flex flex-col gap-3">
-                  <span className="text-[12px] leading-none text-[#7e88c3]">Country</span>
+                  <span className="text-[12px] leading-none text-muted">
+                    Country
+                  </span>
                   <input
                     type="text"
                     name="clientCountry"
@@ -166,7 +192,9 @@ export default function InvoiceFormModal({
           <section className="mt-10 space-y-5">
             <div className="grid grid-cols-2 gap-4">
               <label className="flex flex-col gap-3">
-                <span className="text-[12px] leading-none text-[#7e88c3]">Invoice Date</span>
+                <span className="text-[12px] leading-none text-muted">
+                  Invoice Date
+                </span>
                 <input
                   type="date"
                   name="invoiceDate"
@@ -177,7 +205,9 @@ export default function InvoiceFormModal({
               </label>
 
               <label className="flex flex-col gap-3">
-                <span className="text-[12px] leading-none text-[#7e88c3]">Payment Terms</span>
+                <span className="text-[12px] leading-none text-muted">
+                  Payment Terms
+                </span>
                 <div className="relative">
                   <select
                     name="paymentTerms"
@@ -199,7 +229,9 @@ export default function InvoiceFormModal({
             </div>
 
             <label className="flex flex-col gap-3">
-              <span className="text-[12px] leading-none text-[#7e88c3]">Project Description</span>
+              <span className="text-[12px] leading-none text-muted">
+                Project Description
+              </span>
               <input
                 type="text"
                 name="projectDescription"
@@ -211,9 +243,9 @@ export default function InvoiceFormModal({
             </label>
 
             <div className="space-y-3.5">
-              <h4 className="text-[15px] font-bold text-[#777f98]">Item List</h4>
+              <h4 className="text-[15px] font-bold text-muted">Item List</h4>
 
-              <div className="grid grid-cols-[minmax(150px,1fr)_56px_90px_90px_16px] gap-2.5 text-[12px] text-[#7e88c3]">
+              <div className="grid grid-cols-[minmax(150px,1fr)_56px_90px_90px_16px] gap-2.5 text-[12px] text-muted">
                 <span>Item Name</span>
                 <span>Qty.</span>
                 <span>Price</span>
@@ -228,38 +260,44 @@ export default function InvoiceFormModal({
                   <input
                     type="text"
                     value={item.name}
-                    onChange={(event) => onItemChange(index, "name", event.target.value)}
+                    onChange={(event) =>
+                      onItemChange(index, "name", event.target.value)
+                    }
                     placeholder="Item Name"
-                    className="h-10 rounded-[4px] border border-[#dfe3fa] px-3 text-[13px] font-bold text-text outline-none"
+                    className="h-10 rounded-[4px] border border-border bg-[var(--input-bg)] px-3 text-[13px] font-bold text-text outline-none"
                   />
                   <input
                     type="number"
                     min="1"
                     value={item.quantity}
-                    onChange={(event) => onItemChange(index, "quantity", event.target.value)}
+                    onChange={(event) =>
+                      onItemChange(index, "quantity", event.target.value)
+                    }
                     placeholder="1"
-                    className="h-10 rounded-[4px] border border-[#dfe3fa] px-3 text-[13px] font-bold text-text outline-none"
+                    className="h-10 rounded-[4px] border border-border bg-[var(--input-bg)] px-3 text-[13px] font-bold text-text outline-none"
                   />
                   <input
                     type="number"
                     min="0"
                     step="0.01"
                     value={item.price}
-                    onChange={(event) => onItemChange(index, "price", event.target.value)}
+                    onChange={(event) =>
+                      onItemChange(index, "price", event.target.value)
+                    }
                     placeholder="0.00"
-                    className="h-10 rounded-[4px] border border-[#dfe3fa] px-3 text-[13px] font-bold text-text outline-none"
+                    className="h-10 rounded-[4px] border border-border bg-[var(--input-bg)] px-3 text-[13px] font-bold text-text outline-none"
                   />
                   <input
                     type="text"
                     value={getLineTotal(item)}
                     readOnly
-                    className="h-10 border-none bg-transparent px-0 text-[13px] font-bold text-[#888eb0] outline-none"
+                    className="h-10 border-none bg-transparent px-0 text-[13px] font-bold text-muted outline-none"
                   />
                   <button
                     type="button"
                     onClick={() => onRemoveItem(index)}
                     aria-label="Remove item"
-                    className="grid h-6 w-6 place-items-center text-[12px] text-[#888eb0] transition-colors hover:text-danger"
+                    className="grid h-6 w-6 place-items-center text-[12px] text-muted transition-colors hover:text-danger"
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
@@ -269,7 +307,7 @@ export default function InvoiceFormModal({
               <button
                 type="button"
                 onClick={onAddItem}
-                className="w-full rounded-full bg-[#f9fafe] py-3 text-[13px] font-bold text-[#7e88c3] transition-colors hover:bg-[#edf0fd]"
+                className="w-full rounded-full bg-[var(--soft-bg)] py-3 text-[13px] font-bold text-[#7e88c3] transition-colors hover:bg-[var(--soft-bg-hover)]"
               >
                 + Add New Item
               </button>
@@ -277,11 +315,15 @@ export default function InvoiceFormModal({
           </section>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between rounded-r-[16px] bg-white px-10 py-4 shadow-[0_-10px_24px_rgba(72,84,159,0.08)]">
+        <div
+          className={`absolute bottom-0 left-0 right-0 flex items-center justify-between rounded-r-[16px] px-10 py-4 shadow-[0_-10px_24px_rgba(72,84,159,0.08)] ${
+            isDarkMode ? "bg-[#141625]" : "bg-white"
+          }`}
+        >
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full bg-[#f9fafe] px-5 py-3 text-[13px] font-bold text-[#7e88c3] transition-colors hover:bg-[#edf0fd]"
+            className="rounded-full bg-[var(--soft-bg)] px-5 py-3 text-[13px] font-bold text-[#7e88c3] transition-colors hover:bg-[var(--soft-bg-hover)]"
           >
             {editingInvoiceId ? "Cancel" : "Discard"}
           </button>
@@ -299,7 +341,7 @@ export default function InvoiceFormModal({
               <button
                 type="button"
                 onClick={onSaveDraft}
-                className="rounded-full bg-[#373b53] px-5 py-3 text-[13px] font-bold text-[#888eb0] transition-colors hover:bg-[#1e2139]"
+                className="rounded-full bg-[var(--soft-bg)] px-5 py-3 text-[13px] font-bold text-muted transition-colors hover:bg-[var(--soft-bg-hover)]"
               >
                 Save as Draft
               </button>

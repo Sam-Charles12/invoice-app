@@ -19,6 +19,7 @@ import {
 } from "./utils/invoiceUtils";
 
 export default function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formData, setFormData] = useState(createInitialFormData());
   const [invoices, setInvoices] = useState([]);
@@ -27,7 +28,7 @@ export default function App() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const inputClass =
-    "h-10 rounded-[4px] border border-[#dfe3fa] px-4 text-[13px] font-bold text-text outline-none transition-colors focus:border-primary";
+    "h-10 rounded-[4px] border border-border bg-[var(--input-bg)] px-4 text-[13px] font-bold text-text outline-none transition-colors focus:border-primary";
 
   const handleFieldChange = (event) => {
     const { name, value } = event.target;
@@ -201,14 +202,20 @@ export default function App() {
   );
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-bg">
-      <Sidebar />
+    <div
+      className={`relative min-h-screen overflow-hidden bg-bg ${isDarkMode ? "theme-dark" : ""}`}
+    >
+      <Sidebar
+        isDarkMode={isDarkMode}
+        onToggleTheme={() => setIsDarkMode((prev) => !prev)}
+      />
 
       <main className="ml-[80px] px-12 pb-8 pt-10">
         <section className="mx-auto max-w-[700px]">
           <InvoicesHeader
             invoicesCount={invoices.length}
             onNewInvoice={openNewInvoiceForm}
+            isDarkMode={isDarkMode}
           />
 
           {selectedInvoice ? (
@@ -222,6 +229,7 @@ export default function App() {
               formatAddressLines={formatAddressLines}
               getLineTotal={getLineTotal}
               formatCurrency={formatCurrency}
+              isDarkMode={isDarkMode}
             />
           ) : invoices.length === 0 ? (
             <EmptyInvoicesState />
@@ -231,6 +239,7 @@ export default function App() {
               onSelectInvoice={setSelectedInvoiceId}
               formatCurrency={formatCurrency}
               getStatusStyle={getStatusStyle}
+              isDarkMode={isDarkMode}
             />
           )}
         </section>
@@ -250,6 +259,7 @@ export default function App() {
         onSaveDraft={() => saveInvoice("draft")}
         onSavePending={() => saveInvoice("pending")}
         onSaveChanges={() => saveInvoice(selectedInvoice?.status || "pending")}
+        isDarkMode={isDarkMode}
       />
 
       <DeleteConfirmationModal
@@ -257,6 +267,7 @@ export default function App() {
         invoiceId={selectedInvoice?.id || ""}
         onCancel={closeDeleteModal}
         onConfirm={deleteSelectedInvoice}
+        isDarkMode={isDarkMode}
       />
     </div>
   );

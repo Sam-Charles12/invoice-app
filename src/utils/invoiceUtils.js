@@ -83,18 +83,27 @@ export const generateInvoiceId = () => {
   return `${letterPart}${numberPart}`;
 };
 
-export const getStatusStyle = (status) => {
+export const getStatusStyle = (status, isDarkMode = false) => {
   if (status === "pending") {
-    return "bg-[#fff8f0] text-[#ff8f00]";
+    return isDarkMode
+      ? "bg-[#2a273f] text-[#ff8f00]"
+      : "bg-[#fff8f0] text-[#ff8f00]";
   }
   if (status === "paid") {
-    return "bg-[#f3fdfa] text-[#33d69f]";
+    return isDarkMode
+      ? "bg-[#1f2b3f] text-[#33d69f]"
+      : "bg-[#f3fdfa] text-[#33d69f]";
   }
-  return "bg-[#f4f4f8] text-[#373b53]";
+  return isDarkMode
+    ? "bg-[#2b304b] text-[#dfe3fa]"
+    : "bg-[#f4f4f8] text-[#373b53]";
 };
 
 export const formatAddressLines = (address = {}) => {
-  return [address.street, address.city, address.postCode, address.country].filter(
-    Boolean,
-  );
+  return [
+    address.street,
+    address.city,
+    address.postCode,
+    address.country,
+  ].filter(Boolean);
 };

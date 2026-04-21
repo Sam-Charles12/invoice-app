@@ -1,14 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faPlus } from "@fortawesome/free-solid-svg-icons";
 
-export default function InvoicesHeader({ invoicesCount, onNewInvoice }) {
+export default function InvoicesHeader({
+  invoicesCount,
+  onNewInvoice,
+  isDarkMode,
+}) {
   return (
     <header className="flex items-center justify-between">
       <div>
         <h1 className="font-heading text-[29px] font-bold leading-none text-text">
           Invoices
         </h1>
-        <p className="mt-1 text-[11px] font-medium text-[#888eb0]">
+        <p className="mt-1 text-[11px] font-medium text-muted">
           {invoicesCount === 0
             ? "No invoices"
             : `There ${invoicesCount === 1 ? "is" : "are"} ${invoicesCount} total invoice${invoicesCount === 1 ? "" : "s"}`}
@@ -18,7 +22,9 @@ export default function InvoicesHeader({ invoicesCount, onNewInvoice }) {
       <div className="flex items-center gap-6">
         <button
           type="button"
-          className="flex items-center gap-2 text-[12px] font-bold text-[#1e2139]"
+          className={`flex items-center gap-2 text-[12px] font-bold ${
+            isDarkMode ? "text-[#dfe3fa]" : "text-text"
+          }`}
         >
           <span>Filter by status</span>
           <FontAwesomeIcon
@@ -32,8 +38,8 @@ export default function InvoicesHeader({ invoicesCount, onNewInvoice }) {
           onClick={onNewInvoice}
           className="flex items-center gap-2.5 rounded-full bg-primary px-2 py-1.5 pr-3.5 text-[12px] font-bold text-white transition-colors hover:bg-primary-hover"
         >
-          <span className="grid h-6 w-6 place-items-center rounded-full bg-primary text-bg">
-            <FontAwesomeIcon icon={faCirclePlus} className="text-[20px]" />
+          <span className="grid h-6 w-6 place-items-center rounded-full bg-[#ffffff] text-primary">
+            <FontAwesomeIcon icon={faPlus} className="text-[12px]" />
           </span>
           <span>New Invoice</span>
         </button>
