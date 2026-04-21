@@ -19,13 +19,13 @@ export default function InvoiceList({
           }`}
         >
           <p className="text-[17px] font-bold text-text">
-            <span className="text-[#7e88c3]">#</span>
+            <span className="text-muted">#</span>
             {invoice.id}
           </p>
-          <p className="text-[11px] font-medium text-[#7e88c3]">
+          <p className="text-[11px] font-medium text-muted">
             Due {invoice.dueDate}
           </p>
-          <p className="truncate text-[11px] font-medium text-[#7e88c3]">
+          <p className="truncate text-[11px] font-medium text-muted">
             {invoice.clientName}
           </p>
           <p className="text-right text-[20px] font-bold text-text">

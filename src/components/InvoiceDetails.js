@@ -81,15 +81,15 @@ export default function InvoiceDetails({
           <div className="flex items-start justify-between">
             <div>
               <h2 className="text-[17px] font-bold text-text">
-                <span className="text-[#7e88c3]">#</span>
+                <span className="text-muted">#</span>
                 {invoice.id}
               </h2>
-              <p className="mt-2 text-[12px] text-[#7e88c3]">
+              <p className="mt-2 text-[12px] text-muted">
                 {invoice.description}
               </p>
             </div>
 
-            <div className="text-right text-[12px] leading-5 text-[#7e88c3]">
+            <div className="text-right text-[12px] leading-5 text-muted">
               {formatAddressLines(invoice.senderAddress).map((line) => (
                 <p key={`sender-${line}`}>{line}</p>
               ))}
@@ -98,23 +98,23 @@ export default function InvoiceDetails({
 
           <div className="mt-8 grid grid-cols-3 gap-8">
             <div>
-              <p className="text-[12px] text-[#7e88c3]">Invoice Date</p>
+              <p className="text-[12px] text-muted">Invoice Date</p>
               <p className="mt-3 text-[15px] font-bold text-text">
                 {invoice.createdAt}
               </p>
 
-              <p className="mt-8 text-[12px] text-[#7e88c3]">Payment Due</p>
+              <p className="mt-8 text-[12px] text-muted">Payment Due</p>
               <p className="mt-3 text-[15px] font-bold text-text">
                 {invoice.dueDate}
               </p>
             </div>
 
             <div>
-              <p className="text-[12px] text-[#7e88c3]">Bill To</p>
+              <p className="text-[12px] text-muted">Bill To</p>
               <p className="mt-3 text-[15px] font-bold text-text">
                 {invoice.clientName}
               </p>
-              <div className="mt-3 text-[12px] leading-5 text-[#7e88c3]">
+              <div className="mt-3 text-[12px] leading-5 text-muted">
                 {formatAddressLines(invoice.clientAddress).map((line) => (
                   <p key={`client-${line}`}>{line}</p>
                 ))}
@@ -122,7 +122,7 @@ export default function InvoiceDetails({
             </div>
 
             <div>
-              <p className="text-[12px] text-[#7e88c3]">Sent to</p>
+              <p className="text-[12px] text-muted">Sent to</p>
               <p className="mt-3 break-all text-[15px] font-bold text-text">
                 {invoice.clientEmail}
               </p>
@@ -146,10 +146,10 @@ export default function InvoiceDetails({
                     className="grid grid-cols-[1fr_80px_120px_120px] text-[13px] font-bold text-text"
                   >
                     <span>{item.name || "Untitled item"}</span>
-                    <span className="text-right text-[#7e88c3]">
+                    <span className="text-right text-muted">
                       {item.quantity || 0}
                     </span>
-                    <span className="text-right text-[#7e88c3]">
+                    <span className="text-right text-muted">
                       {formatCurrency(Number(item.price) || 0)}
                     </span>
                     <span className="text-right">

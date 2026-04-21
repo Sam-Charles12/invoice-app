@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import InvoicesHeader from "./components/InvoicesHeader";
 import EmptyInvoicesState from "./components/EmptyInvoicesState";
@@ -26,16 +26,22 @@ export default function App() {
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const [editingInvoiceId, setEditingInvoiceId] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+  const [formAlerts, setFormAlerts] = useState([]);
 
   const inputClass =
     "h-10 rounded-[4px] border border-border bg-[var(--input-bg)] px-4 text-[13px] font-bold text-text outline-none transition-colors focus:border-primary";
 
   const handleFieldChange = (event) => {
     const { name, value } = event.target;
+    setFormErrors({});
+    setFormAlerts([]);
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleItemChange = (index, field, value) => {
+    setFormErrors({});
+    setFormAlerts([]);
     setFormData((prev) => {
       const nextItems = [...prev.items];
       nextItems[index] = { ...nextItems[index], [field]: value };
@@ -44,6 +50,8 @@ export default function App() {
   };
 
   const addItem = () => {
+    setFormErrors({});
+    setFormAlerts([]);
     setFormData((prev) => ({
       ...prev,
       items: [...prev.items, { name: "", quantity: "1", price: "" }],
@@ -51,6 +59,8 @@ export default function App() {
   };
 
   const removeItem = (index) => {
+    setFormErrors({});
+    setFormAlerts([]);
     setFormData((prev) => {
       if (prev.items.length === 1) {
         return { ...prev, items: [{ name: "", quantity: "1", price: "" }] };
@@ -61,6 +71,62 @@ export default function App() {
         items: prev.items.filter((_, itemIndex) => itemIndex !== index),
       };
     });
+  };
+
+  const validateInvoiceForm = () => {
+    const errors = {};
+    const requiredFields = [
+      "senderStreet",
+      "senderCity",
+      "senderPostCode",
+      "senderCountry",
+      "clientName",
+      "clientEmail",
+      "clientStreet",
+      "clientCity",
+      "clientPostCode",
+      "clientCountry",
+      "invoiceDate",
+      "projectDescription",
+    ];
+
+    requiredFields.forEach((fieldName) => {
+      if (!String(formData[fieldName] || "").trim()) {
+        errors[fieldName] = "can't be empty";
+      }
+    });
+
+    const hasCompleteItem = formData.items.some(
+      (item) =>
+        String(item.name || "").trim() &&
+        Number(item.quantity) > 0 &&
+        String(item.price || "").trim(),
+    );
+
+    formData.items.forEach((item, index) => {
+      if (!String(item.name || "").trim()) {
+        errors[`item-name-${index}`] = "can\'t be empty";
+      }
+      if (!(Number(item.quantity) > 0)) {
+        errors[`item-quantity-${index}`] = "can\'t be empty";
+      }
+      if (!String(item.price || "").trim()) {
+        errors[`item-price-${index}`] = "can\'t be empty";
+      }
+    });
+
+    const alerts = [];
+    if (Object.keys(errors).length > 0) {
+      alerts.push("- All fields must be added");
+    }
+    if (!hasCompleteItem) {
+      alerts.push("- An item must be added");
+    }
+
+    setFormErrors(errors);
+    setFormAlerts(alerts);
+
+    return Object.keys(errors).length === 0 && hasCompleteItem;
   };
 
   const buildInvoice = (status, existingInvoiceId = null) => {
@@ -117,12 +183,23 @@ export default function App() {
     setSelectedInvoiceId(invoice.id);
     setFormData(createInitialFormData());
     setEditingInvoiceId(null);
+    setFormErrors({});
+    setFormAlerts([]);
     setIsFormOpen(false);
+  };
+
+  const saveWithValidation = (status) => {
+    if (!validateInvoiceForm()) {
+      return;
+    }
+    saveInvoice(status);
   };
 
   const openNewInvoiceForm = () => {
     setEditingInvoiceId(null);
     setFormData(createInitialFormData());
+    setFormErrors({});
+    setFormAlerts([]);
     setIsFormOpen(true);
   };
 
@@ -155,6 +232,8 @@ export default function App() {
             }))
           : [{ name: "", quantity: "1", price: "" }],
     });
+    setFormErrors({});
+    setFormAlerts([]);
     setIsFormOpen(true);
   };
 
@@ -195,11 +274,21 @@ export default function App() {
     setIsFormOpen(false);
     setEditingInvoiceId(null);
     setFormData(createInitialFormData());
+    setFormErrors({});
+    setFormAlerts([]);
   };
 
   const selectedInvoice = invoices.find(
     (invoice) => invoice.id === selectedInvoiceId,
   );
+
+  useEffect(() => {
+    document.body.classList.toggle("theme-dark", isDarkMode);
+
+    return () => {
+      document.body.classList.remove("theme-dark");
+    };
+  }, [isDarkMode]);
 
   return (
     <div
@@ -249,6 +338,8 @@ export default function App() {
         isOpen={isFormOpen}
         editingInvoiceId={editingInvoiceId}
         formData={formData}
+        formErrors={formErrors}
+        formAlerts={formAlerts}
         inputClass={inputClass}
         onClose={closeForm}
         onFieldChange={handleFieldChange}
@@ -257,8 +348,10 @@ export default function App() {
         onRemoveItem={removeItem}
         getLineTotal={getLineTotal}
         onSaveDraft={() => saveInvoice("draft")}
-        onSavePending={() => saveInvoice("pending")}
-        onSaveChanges={() => saveInvoice(selectedInvoice?.status || "pending")}
+        onSavePending={() => saveWithValidation("pending")}
+        onSaveChanges={() =>
+          saveWithValidation(selectedInvoice?.status || "pending")
+        }
         isDarkMode={isDarkMode}
       />
 

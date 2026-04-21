@@ -6,6 +6,8 @@ export default function InvoiceFormModal({
   editingInvoiceId,
   isDarkMode,
   formData,
+  formErrors,
+  formAlerts,
   inputClass,
   onClose,
   onFieldChange,
@@ -20,6 +22,16 @@ export default function InvoiceFormModal({
   if (!isOpen) {
     return null;
   }
+
+  const getInputClass = (fieldName) => {
+    return `${inputClass} ${formErrors[fieldName] ? "border-danger focus:border-danger" : ""}`;
+  };
+
+  const getItemInputClass = (fieldName) => {
+    return `h-10 rounded-[4px] border border-border bg-[var(--input-bg)] px-3 text-[13px] font-bold text-text outline-none ${
+      formErrors[fieldName] ? "border-danger focus:border-danger" : ""
+    }`;
+  };
 
   return (
     <div
@@ -44,16 +56,21 @@ export default function InvoiceFormModal({
 
             <div className="space-y-5">
               <label className="flex flex-col gap-3">
-                <span className="text-[12px] leading-none text-muted">
-                  Street Address
-                </span>
+                <div className="flex items-center justify-between text-[12px] leading-none">
+                  <span className="text-muted">Street Address</span>
+                  {formErrors.senderStreet ? (
+                    <span className="text-[10px] font-medium text-danger">
+                      {formErrors.senderStreet}
+                    </span>
+                  ) : null}
+                </div>
                 <input
                   type="text"
                   name="senderStreet"
                   value={formData.senderStreet}
                   onChange={onFieldChange}
                   placeholder="Street Address"
-                  className={inputClass}
+                  className={getInputClass("senderStreet")}
                 />
               </label>
 
@@ -68,7 +85,7 @@ export default function InvoiceFormModal({
                     value={formData.senderCity}
                     onChange={onFieldChange}
                     placeholder="City"
-                    className={inputClass}
+                    className={getInputClass("senderCity")}
                   />
                 </label>
                 <label className="flex flex-col gap-3">
@@ -81,7 +98,7 @@ export default function InvoiceFormModal({
                     value={formData.senderPostCode}
                     onChange={onFieldChange}
                     placeholder="Post Code"
-                    className={inputClass}
+                    className={getInputClass("senderPostCode")}
                   />
                 </label>
                 <label className="flex flex-col gap-3">
@@ -94,7 +111,7 @@ export default function InvoiceFormModal({
                     value={formData.senderCountry}
                     onChange={onFieldChange}
                     placeholder="Country"
-                    className={inputClass}
+                    className={getInputClass("senderCountry")}
                   />
                 </label>
               </div>
@@ -106,16 +123,21 @@ export default function InvoiceFormModal({
 
             <div className="space-y-5">
               <label className="flex flex-col gap-3">
-                <span className="text-[12px] leading-none text-muted">
-                  Client&apos;s Name
-                </span>
+                <div className="flex items-center justify-between text-[12px] leading-none">
+                  <span className="text-muted">Client&apos;s Name</span>
+                  {formErrors.clientName ? (
+                    <span className="text-[10px] font-medium text-danger">
+                      {formErrors.clientName}
+                    </span>
+                  ) : null}
+                </div>
                 <input
                   type="text"
                   name="clientName"
                   value={formData.clientName}
                   onChange={onFieldChange}
                   placeholder="Client name"
-                  className={inputClass}
+                  className={getInputClass("clientName")}
                 />
               </label>
               <label className="flex flex-col gap-3">
@@ -127,8 +149,8 @@ export default function InvoiceFormModal({
                   name="clientEmail"
                   value={formData.clientEmail}
                   onChange={onFieldChange}
-                  placeholder="client@example.com"
-                  className={inputClass}
+                  placeholder="e.g. email@example.com"
+                  className={getInputClass("clientEmail")}
                 />
               </label>
               <label className="flex flex-col gap-3">
@@ -141,7 +163,7 @@ export default function InvoiceFormModal({
                   value={formData.clientStreet}
                   onChange={onFieldChange}
                   placeholder="Street Address"
-                  className={inputClass}
+                  className={getInputClass("clientStreet")}
                 />
               </label>
 
@@ -156,7 +178,7 @@ export default function InvoiceFormModal({
                     value={formData.clientCity}
                     onChange={onFieldChange}
                     placeholder="City"
-                    className={inputClass}
+                    className={getInputClass("clientCity")}
                   />
                 </label>
                 <label className="flex flex-col gap-3">
@@ -169,7 +191,7 @@ export default function InvoiceFormModal({
                     value={formData.clientPostCode}
                     onChange={onFieldChange}
                     placeholder="Post Code"
-                    className={inputClass}
+                    className={getInputClass("clientPostCode")}
                   />
                 </label>
                 <label className="flex flex-col gap-3">
@@ -182,7 +204,7 @@ export default function InvoiceFormModal({
                     value={formData.clientCountry}
                     onChange={onFieldChange}
                     placeholder="Country"
-                    className={inputClass}
+                    className={getInputClass("clientCountry")}
                   />
                 </label>
               </div>
@@ -193,14 +215,14 @@ export default function InvoiceFormModal({
             <div className="grid grid-cols-2 gap-4">
               <label className="flex flex-col gap-3">
                 <span className="text-[12px] leading-none text-muted">
-                  Invoice Date
+                  Issue Date
                 </span>
                 <input
                   type="date"
                   name="invoiceDate"
                   value={formData.invoiceDate}
                   onChange={onFieldChange}
-                  className={inputClass}
+                  className={getInputClass("invoiceDate")}
                 />
               </label>
 
@@ -237,8 +259,8 @@ export default function InvoiceFormModal({
                 name="projectDescription"
                 value={formData.projectDescription}
                 onChange={onFieldChange}
-                placeholder="Project Description"
-                className={inputClass}
+                placeholder="e.g. Graphic Design Service"
+                className={getInputClass("projectDescription")}
               />
             </label>
 
@@ -264,7 +286,7 @@ export default function InvoiceFormModal({
                       onItemChange(index, "name", event.target.value)
                     }
                     placeholder="Item Name"
-                    className="h-10 rounded-[4px] border border-border bg-[var(--input-bg)] px-3 text-[13px] font-bold text-text outline-none"
+                    className={getItemInputClass(`item-name-${index}`)}
                   />
                   <input
                     type="number"
@@ -274,7 +296,7 @@ export default function InvoiceFormModal({
                       onItemChange(index, "quantity", event.target.value)
                     }
                     placeholder="1"
-                    className="h-10 rounded-[4px] border border-border bg-[var(--input-bg)] px-3 text-[13px] font-bold text-text outline-none"
+                    className={getItemInputClass(`item-quantity-${index}`)}
                   />
                   <input
                     type="number"
@@ -285,7 +307,7 @@ export default function InvoiceFormModal({
                       onItemChange(index, "price", event.target.value)
                     }
                     placeholder="0.00"
-                    className="h-10 rounded-[4px] border border-border bg-[var(--input-bg)] px-3 text-[13px] font-bold text-text outline-none"
+                    className={getItemInputClass(`item-price-${index}`)}
                   />
                   <input
                     type="text"
@@ -312,6 +334,14 @@ export default function InvoiceFormModal({
                 + Add New Item
               </button>
             </div>
+
+            {formAlerts.length > 0 ? (
+              <div className="space-y-1 text-[10px] font-medium text-danger">
+                {formAlerts.map((alert) => (
+                  <p key={alert}>{alert}</p>
+                ))}
+              </div>
+            ) : null}
           </section>
         </div>
 

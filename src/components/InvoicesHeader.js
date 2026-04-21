@@ -38,7 +38,7 @@ export default function InvoicesHeader({
           onClick={onNewInvoice}
           className="flex items-center gap-2.5 rounded-full bg-primary px-2 py-1.5 pr-3.5 text-[12px] font-bold text-white transition-colors hover:bg-primary-hover"
         >
-          <span className="grid h-6 w-6 place-items-center rounded-full bg-[#ffffff] text-primary">
+          <span className="grid h-6 w-6 place-items-center rounded-full bg-white text-primary shadow-sm">
             <FontAwesomeIcon icon={faPlus} className="text-[12px]" />
           </span>
           <span>New Invoice</span>
