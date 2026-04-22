@@ -18,6 +18,18 @@ import {
   getStatusStyle,
 } from "./utils/invoiceUtils";
 
+const INVOICES_STORAGE_KEY = "invoice-app-invoices";
+
+const loadStoredInvoices = () => {
+  try {
+    const storedInvoices = localStorage.getItem(INVOICES_STORAGE_KEY);
+    const parsedInvoices = storedInvoices ? JSON.parse(storedInvoices) : [];
+    return Array.isArray(parsedInvoices) ? parsedInvoices : [];
+  } catch {
+    return [];
+  }
+};
+
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("invoice-theme");
@@ -25,7 +37,7 @@ export default function App() {
   });
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formData, setFormData] = useState(createInitialFormData());
-  const [invoices, setInvoices] = useState([]);
+  const [invoices, setInvoices] = useState(() => loadStoredInvoices());
   const [selectedStatuses, setSelectedStatuses] = useState([]);
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const [editingInvoiceId, setEditingInvoiceId] = useState(null);
@@ -345,6 +357,14 @@ export default function App() {
       document.body.classList.remove("theme-dark");
     };
   }, [isDarkMode]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(INVOICES_STORAGE_KEY, JSON.stringify(invoices));
+    } catch {
+      // Ignore storage write failures and keep the in-memory state working.
+    }
+  }, [invoices]);
 
   return (
     <div
