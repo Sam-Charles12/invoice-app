@@ -7,6 +7,7 @@ export default function InvoiceDetails({
   onEdit,
   onDelete,
   onMarkAsPaid,
+  canMarkAsPaid,
   getStatusStyle,
   formatAddressLines,
   getLineTotal,
@@ -64,7 +65,12 @@ export default function InvoiceDetails({
             <button
               type="button"
               onClick={onMarkAsPaid}
-              className="whitespace-nowrap rounded-full bg-primary px-4 py-2.5 text-[12px] font-bold text-white transition-colors hover:bg-primary-hover lg:px-5 lg:py-3 lg:text-[13px]"
+              disabled={!canMarkAsPaid}
+              className={`whitespace-nowrap rounded-full px-4 py-2.5 text-[12px] font-bold text-white transition-colors lg:px-5 lg:py-3 lg:text-[13px] ${
+                canMarkAsPaid
+                  ? "bg-primary hover:bg-primary-hover"
+                  : "cursor-not-allowed bg-[#7e88c3]/40"
+              }`}
             >
               Mark as Paid
             </button>
@@ -276,7 +282,12 @@ export default function InvoiceDetails({
         <button
           type="button"
           onClick={onMarkAsPaid}
-          className="flex-[1.4] whitespace-nowrap rounded-full bg-primary px-4 py-3 text-[13px] font-bold text-white transition-colors hover:bg-primary-hover"
+          disabled={!canMarkAsPaid}
+          className={`flex-[1.4] whitespace-nowrap rounded-full px-4 py-3 text-[13px] font-bold text-white transition-colors ${
+            canMarkAsPaid
+              ? "bg-primary hover:bg-primary-hover"
+              : "cursor-not-allowed bg-[#7e88c3]/40"
+          }`}
         >
           Mark as Paid
         </button>
