@@ -445,7 +445,7 @@ export default function InvoiceFormModal({
             <button
               type="button"
               onClick={onSaveChanges}
-              className="rounded-full bg-primary px-5 py-3 text-[13px] font-bold text-white transition-colors hover:bg-primary-hover"
+              className="rounded-full bg-primary px-5 py-3 text-[13px] sm:text-[9px] font-bold text-white transition-colors hover:bg-primary-hover"
             >
               Save Changes
             </button>
@@ -454,7 +454,7 @@ export default function InvoiceFormModal({
               <button
                 type="button"
                 onClick={onSaveDraft}
-                className="rounded-full bg-[var(--soft-bg)] px-5 py-3 text-[13px] font-bold text-muted transition-colors hover:bg-[var(--soft-bg-hover)]"
+                className="rounded-full bg-[var(--soft-bg)] px-5 py-3 text-[13px] sm:text-[9px] font-bold text-muted transition-colors hover:bg-[var(--soft-bg-hover)]"
               >
                 Save as Draft
               </button>
