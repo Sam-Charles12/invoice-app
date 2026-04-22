@@ -1,16 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
-import logo from "../img/Oval.png";
+import logo from "../img/Combined Shape.png";
 
 export default function Sidebar({ isDarkMode, onToggleTheme }) {
   return (
     <aside className="fixed left-0 top-0 z-20 flex h-[80px] w-full overflow-hidden bg-dark lg:h-screen lg:w-[80px] lg:flex-col lg:rounded-r-[16px]">
       <div className="relative h-[80px] w-[80px] bg-primary lg:h-[92px] lg:w-auto">
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center z-10">
           <img
             src={logo}
             alt="Invoice logo"
-            className="h-6 w-6 object-contain"
+            className="h-8 w-8 object-contain"
           />
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-1/2 rounded-tl-[16px] bg-primary-hover" />
