@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export default function DeleteConfirmationModal({
   isOpen,
   invoiceId,
@@ -5,6 +7,23 @@ export default function DeleteConfirmationModal({
   onConfirm,
   isDarkMode,
 }) {
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    const handleEscapeKey = (event) => {
+      if (event.key === "Escape") {
+        onCancel();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscapeKey);
+    return () => {
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [isOpen, onCancel]);
+
   if (!isOpen) {
     return null;
   }
@@ -13,6 +32,9 @@ export default function DeleteConfirmationModal({
     <div
       className="fixed inset-0 z-40 flex items-center justify-center bg-[var(--overlay)] px-5"
       onClick={onCancel}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Confirm deletion of invoice #${invoiceId}`}
     >
       <div
         className={`w-full max-w-[480px] rounded-[10px] px-7 py-8 shadow-[0_24px_44px_rgba(72,84,159,0.22)] sm:px-12 sm:py-10 ${

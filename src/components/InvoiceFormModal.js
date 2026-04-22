@@ -4,6 +4,7 @@ import {
   faChevronDown,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useRef } from "react";
 
 export default function InvoiceFormModal({
   isOpen,
@@ -23,6 +24,25 @@ export default function InvoiceFormModal({
   onSavePending,
   onSaveChanges,
 }) {
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    const handleEscapeKey = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscapeKey);
+    return () => {
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) {
     return null;
   }
@@ -41,8 +61,12 @@ export default function InvoiceFormModal({
     <div
       className="fixed inset-x-0 bottom-0 top-[80px] z-30 bg-[var(--overlay)] lg:inset-0 lg:left-[80px]"
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={editingInvoiceId ? `Edit invoice #${editingInvoiceId}` : "Create new invoice"}
     >
       <div
+        ref={modalRef}
         className={`absolute top-0 flex h-full w-full flex-col shadow-[0_20px_40px_rgba(72,84,159,0.25)] sm:w-[min(80vw,616px)] sm:rounded-r-[16px] lg:w-[clamp(320px,52vw,540px)] ${
           isDarkMode ? "bg-[#141625]" : "bg-white"
         }`}
