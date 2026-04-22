@@ -34,7 +34,7 @@ export default function App() {
   const [formAlerts, setFormAlerts] = useState([]);
 
   const inputClass =
-    "h-11 rounded-[4px] border border-border bg-[var(--input-bg)] px-4 text-[13px] font-bold text-text outline-none transition-colors focus:border-primary sm:h-10 sm:text-[13px]";
+    "h-11 rounded-[4px] border border-border bg-[var(--input-bg)] px-4 text-[13px] font-bold text-text outline-none transition-colors hover:border-primary focus:border-primary sm:h-10 sm:text-[13px]";
 
   const handleFieldChange = (event) => {
     const { name, value } = event.target;
@@ -116,6 +116,15 @@ export default function App() {
     );
 
     formData.items.forEach((item, index) => {
+      const hasAnyValue =
+        String(item.name || "").trim() ||
+        String(item.quantity || "").trim() ||
+        String(item.price || "").trim();
+
+      if (!hasAnyValue) {
+        return;
+      }
+
       if (!String(item.name || "").trim()) {
         errors[`item-name-${index}`] = "can't be empty";
       }
@@ -398,7 +407,7 @@ export default function App() {
         onAddItem={addItem}
         onRemoveItem={removeItem}
         getLineTotal={getLineTotal}
-        onSaveDraft={() => saveInvoice("draft")}
+        onSaveDraft={() => saveWithValidation("draft")}
         onSavePending={() => saveWithValidation("pending")}
         onSaveChanges={() =>
           saveWithValidation(selectedInvoice?.status || "pending")

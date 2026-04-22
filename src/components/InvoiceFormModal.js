@@ -32,7 +32,7 @@ export default function InvoiceFormModal({
   };
 
   const getItemInputClass = (fieldName) => {
-    return `h-11 rounded-[4px] border border-border bg-[var(--input-bg)] px-3 text-[13px] font-bold text-text outline-none sm:h-10 sm:text-[13px] ${
+    return `h-11 rounded-[4px] border border-border bg-[var(--input-bg)] px-3 text-[13px] font-bold text-text outline-none transition-colors hover:border-primary focus:border-primary sm:h-10 sm:text-[13px] ${
       formErrors[fieldName] ? "border-danger focus:border-danger" : ""
     }`;
   };
@@ -317,7 +317,9 @@ export default function InvoiceFormModal({
                             onItemChange(index, "quantity", event.target.value)
                           }
                           placeholder="1"
-                          className={getItemInputClass(`item-quantity-${index}`)}
+                          className={getItemInputClass(
+                            `item-quantity-${index}`,
+                          )}
                         />
                       </div>
                       <div>
@@ -344,7 +346,7 @@ export default function InvoiceFormModal({
                           type="text"
                           value={getLineTotal(item)}
                           readOnly
-                          className="h-11 border-none bg-transparent px-0 text-[13px] font-bold text-muted outline-none sm:h-10 sm:text-[13px]"
+                          className="h-11 border-none bg-transparent px-0 text-[13px] font-bold text-muted outline-none sm:h-10 sm:text-[13px] "
                         />
                       </div>
                       <button
