@@ -52,7 +52,7 @@ export default function InvoiceFormModal({
   };
 
   const getItemInputClass = (fieldName) => {
-    return `h-11 rounded-[4px] border border-border bg-[var(--input-bg)] px-3 text-[13px] font-bold text-text outline-none transition-colors hover:border-primary focus:border-primary sm:h-10 sm:text-[13px] ${
+    return `h-11 w-full rounded-[4px] border border-border bg-[var(--input-bg)] px-3 text-[13px] font-bold text-text outline-none transition-colors hover:border-primary focus:border-primary sm:h-10 sm:text-[13px] ${
       formErrors[fieldName] ? "border-danger focus:border-danger" : ""
     }`;
   };
@@ -328,7 +328,7 @@ export default function InvoiceFormModal({
                       placeholder="Item Name"
                       className={getItemInputClass(`item-name-${index}`)}
                     />
-                    <div className="grid grid-cols-[62px_96px_1fr_20px] items-end gap-3">
+                    <div className="grid grid-cols-[62px_96px_1fr_20px] items-center gap-3">
                       <div>
                         <label className="block text-[12px] leading-none text-muted">
                           Qty.
@@ -377,7 +377,7 @@ export default function InvoiceFormModal({
                         type="button"
                         onClick={() => onRemoveItem(index)}
                         aria-label="Remove item"
-                        className="grid h-6 w-6 place-items-center text-[12px] text-muted transition-colors hover:text-danger"
+                        className="grid h-6 w-6 place-items-center text-[12px] text-muted transition-colors hover:text-danger mr-[10px]"
                       >
                         <FontAwesomeIcon icon={faTrash} />
                       </button>
